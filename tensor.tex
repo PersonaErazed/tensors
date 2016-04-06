@@ -269,7 +269,25 @@ N \arrow{r}{\iota}\arrow{rd}{}[swap]{\phi}
   \end{cor}
   \subsection{General Tensor}
   \begin{defn}
-    Let $M$ be any right module-$R$, $N$ any left $R$-module
+    Let $M$ be any right module-$R$ and $N$ any left $R$-module. Consider the
+    equivalance relation $\sim$ on $F(M\times N)$ free Abelian group generated from
+    $M\times N$ where
+  \begin{align*}
+    &(m_1+m_2,n)\sim(m_1,n) + (m_2,n)
+    &(m.r,n)\sim(s,r.n) \\
+    &(m,n_1+n_2)\sim(m,n_1)+(m,n_2)
+  \end{align*}
+  The abelian group $M\otimes_RN=F(M\times N)/\sim$ is called the \textbf{tensor product of $M$ and $N$ over $R$}
+  \end{defn}
+  \begin{defn}
+    Let $M$ be any right module-$R$, $N$ any left $R$-module, and $L$ any 
+    Abelian group.\\[1em]
+    $\phi:M\times N\to L$ is $R$-balanced iff
+    \begin{align*}
+      &\phi(m_1+m_2,n)=\phi(m_1,n)+\phi(m_2,n)
+      &\phi(m,r.n)=\phi(m.r,n) \\
+      &\phi(m,n_1+n_2)=\phi(m,n_1)+\phi(m,n_2)
+    \end{align*}
   \end{defn}
   \begin{thm}
     Let $R$ be any ring with 1, $M$ right module-$R$, $N$ left
