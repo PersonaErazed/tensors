@@ -1,0 +1,329 @@
+\documentclass{article}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usetikzlibrary{matrix,arrows,decorations.pathmorphing}
+
+\theoremstyle{plain}
+  \newtheorem{lemma}{Lemma}[section]
+  \newtheorem{prop}{Proposition}[section]
+  \newtheorem{thm}{Theorem}[section]
+  \newtheorem{cor}{Corollary}[section]
+
+\theoremstyle{definition}
+  \newtheorem{defn}{Definition}[section]
+
+\theoremstyle{remark}
+  \newtheorem{remark}{Remark}[section]
+  \newtheorem{eg}{Example}[section]
+  \newtheorem{ceg}{Counterexample}[section]
+
+\begin{document}
+  \subsection{A brief reminder of what Modules are}
+  \begin{defn}
+    Module.
+    Let $R$ be a ring. A set $M$ with a binary operation 
+    $+:M\times M\to M$ and a map $.:R\times M\to M$ is a 
+    \emph{left $R$-module} iff
+    \begin{enumerate}
+      \item $(M,+)$ is an Abelian group
+      \item $.:R\times M\to M$ defines a ``ring action of $R$ on $M$''
+        (scalar multiplication) i.e.
+        for all $r,s\in R$ and for all $m,n\in M$ that
+        \begin{enumerate}
+          \item $(r+s).m=r.m+s.m$
+          \item $(r\cdot s).m=r.(s.m)$
+          \item $r.(m+n)=r.m+r.n$
+        \end{enumerate}
+      \item if $R$ is a ring with identity then $1.m=m$ for all $m\in M$
+    \end{enumerate}
+  \end{defn}
+  \begin{eg}
+    Any ring \[r.s = r\cdot s\]
+%    Any ring $R$ is a $R$-module since $(R,+)$ is an Abelian group
+%    and $\cdot:R\times R\to R$ is an associative binary operation which 
+%    distributes over addition by definition.
+  \end{eg}
+  \begin{eg}
+    Abelian groups are $\mathbb{Z}$-modules
+    \[n.a=\left\{\begin{array}{llr} 
+        a+\cdots+a &(n-1) \text{ addition operations}& :n>0 \\
+        0 && :n=0 \\
+        -a+\cdots+ -a &(-n-1) \text{ addition operations} &:n<0
+      \end{array}\right.\]
+  \end{eg}
+  \begin{eg}
+%    Vector spaces over a field $\mathbb{F}$ are $\mathbb{F}$-modules.
+    Vector spaces are $R$-modules where $R$ is a field.
+  \end{eg}
+  \begin{eg}
+    Collection of maps from a set $X$ to a $R$-module $M$  
+    \[M^X=\{ f:X\to M \}\]
+%    $(f+g)(x)=f(x)+g(x)$ and $(r.f)(x)=r.f(x)$
+    where for all $f,g\in M^X$ and for all $x\in X$ and for all $r\in R$
+    \[(f+g)(x)=f(x)+g(x)\qquad(r.f)(x)=r.f(x)\]
+  \end{eg}
+  \begin{eg}
+    $X$ is a finite set e.g. $X=[n]:=\{1,2,\cdots,n\}$ for some 
+    natural number $n$.
+    \\[1em]
+    Then $M^X=M^{[n]}$ is a $R$-module for some 
+    $M$ $R$-module i.e. direct product of $R$-modules 
+    \[M^n=M\times \cdots\times M\]
+  \end{eg}
+  \begin{eg}
+    Smooth functions on a real smooth $n$-manifold $X$ such as $\mathbb{R}^n$
+    \[\mathcal{C}^\infty(X)=\{f:X\to\mathbb{R} | f\text{ is a smooth map
+    }\}\subset\mathbb{R}^X\]
+    smooth map\footnote{
+      $f$ is a smooth map $\iff$ for all smooth charts $(\phi,U)$ that 
+      the following is a smooth function
+      \[\phi^{-1}\circ f:\phi(U\cap V)\subset\mathbb{R}^n\to\mathbb{R}\] 
+    } 
+  \end{eg}
+  \begin{eg}
+    The smooth vector fields on a manifold $X$ is a 
+    $\mathcal{C}^\infty(X)$-module
+    \[ \Gamma(TX)=\{v:X\to TX |\text{ smooth and }\pi\circ v=\text{id}_X\}\]
+    where $\pi:TX\to X$ is the projection from the tangent bundle
+    $TX=\amalg_{x\in X}T_xX$, the disjoint union of the tangent spaces, onto X.
+    \[ (f.v)(x)=f(x).v_x \]
+  \end{eg}
+\section{Tensor Product}
+\subsection{Special Case: Extension of Scalar Ring}
+%%%%%%%%%% Dummit Foote %%%%%
+  Let us consider the motivating problem presented by Dummit and Foote. Given
+  a $R$-module such that the ring $R$ is a subring of another ring $S$, what is the most
+  general $S$-module which the given $R$-module can be embedded? i.e. when can
+  a $R$-module to extended to a $S$-module? This is know as extension of 
+  scalars.
+
+  Let us call our $R$-module to be extended $N$.
+  Recall the key elements of the definition for a $\mathcal{R}$-module, a Abelian group
+  structure and an action of the ring $\mathcal{R}$ on the Abelian group.
+  It is therefore natural to consider the free Abelian group $F(S\times N)$
+  as a candidate Abelian group to define a $S$ ring action on and which $N$
+  can be embedded.
+
+  \begin{defn}
+     For any ring $\mathcal{R}$, a $\mathcal{R}$-module $F$ is \textbf{free} iff
+     for some set $X$, there exists unique nonzero elements 
+     $r_1,\ldots,r_k\in\mathcal{R}$ and unique elements $x_1,\ldots,x_k\in X$
+     for each element $f\in F$, such that $f=r_1.x_1+\cdots+r_k.x_k$
+  \end{defn}
+  \begin{eg}
+    Any ring $\mathcal{R}$ and any set $X$ let 
+    \[F(X)=\{f:X\to \mathcal{R}\;|\;X\setminus f^{-1}[0] \text{ finite}\}\subset \mathcal{R}^X\]
+    i.e. maps $X\to \mathcal{R}$ with finte support where support is defined as supp$(f):=\{x\in X:f(x)\neq 0\}$.
+    The $\mathcal{R}$-module structure is defined componentwise.
+\\[1em]
+    To show $F(X)$ is free
+    define the injection $\iota:X\to F(X):x\mapsto \delta_x$ such that
+    \[\delta_x(y)=\left\{\begin{array}{lr}1&y=x\\0&y\neq x\end{array}\right.\]
+    It is easy to see
+    for any $f\in F(X)$ there exists unique nonzero elements $r_1,\ldots,r_k\in\mathcal{R}$
+    and unqiue elements $x_1,\ldots,x_k\in X$ such that \[f=r_1.\delta_{x_1}+\cdots+r_k.\delta_{x_k}\]
+  \end{eg}
+  \begin{remark}
+    $\mathcal{R}=\mathbb{Z}$ then $F$ a free $\mathbb{Z}$-module is called a
+    free Abelian group.
+   \\ 
+  \end{remark}
+
+  With $F(S\times N)$ as our Abelian group let us define a ring action from $S$
+  as for any $f\in F(S\times N)$ and $s\in S$
+  \begin{align*}
+    s.f:&=s.(s_1,n_1)+\cdots+s.(s_k,n_k) \\
+    &=(s\cdot s_1,n_1)+\cdots+(s\cdot s_k,n_k)
+  \end{align*}
+  Now considering the details of the definition of a general $\mathcal{R}$-module $M$ the
+  ring action must preserve both the ring's and Abelian group's structures. i.e.
+  \begin{align*}
+    &(r_1+r_2).m = r_1.m + r_2.m 
+    &(r_1\cdot r_2).m = r_1.(r_2.m)\\
+    &r.(m_1+m_2)=r.m_1 + r.m_2
+  \end{align*}
+  for any $r,r_1,r_2\in\mathcal{R}$ and any $m,m_1,m_2\in M$.
+
+  This leads us to define the equivalence relation $\sim$ on $F(S\times N)$ as follows
+  \begin{align*}
+    &(s_1+s_2,n)\sim(s_1,n) + (s_2,n)
+    &(s\cdot r,n)\sim(s,r.n) \\
+    &(s,n_1+n_2)\sim(s,n_1)+(s,n_2)
+  \end{align*}
+  for any $s,s_1,s_2\in S$, any $r\in R$, and any $n,n_1,n_2\in N$.
+  Note the subtle difference in the compatibility relation this is the case
+  since $N$ has a $R$-module structure.
+
+  Since equivalence relations give us a normal subgroup i.e. $a\sim b \iff a-b\in H$.
+  Let us define the $S$-module we have constructed as 
+  \[S\otimes_R N :=F(S\times N)/\sim \]
+  let us call the cosets, tensors, the following is an example
+  of a simple tensor
+  \[s\otimes n:=\{f\in F(S\times N):f\sim (s,n)\}\]
+  The binary Abelian operation + is defined via the natural surjective
+  group homomorphism $\pi:F(S\times N)\to F(S\times N)/\sim$
+  \begin{align*}
+    (s\otimes n)+(s'\otimes n') &= \pi((s,n))+\pi((s',n')) \\
+     &= \pi((s,n)+(s',n')) \\
+     &= \{f\in F(S\times N):f\sim (s,n)+(s',n')\}
+  \end{align*}
+  This yeilds the following relations
+  \begin{align*}
+    &(s_1+s_2)\otimes n = s_1\otimes n + s_2\otimes n
+    &(s\cdot r)\otimes n = s.(r.n)\\
+    &s\otimes(n_1+n_2)=s\otimes n_1+ s\otimes n_2
+  \end{align*}
+  Let us define the $S$ ring action as
+  \[s_\circ\left(\sum_{i\in[n]}s_i\otimes n_i\right)
+   = \sum_{i\in[n]}(s\cdot s_i)\otimes n_i\]
+  Exercise check if this is well defined, note these are cosets and
+  check for simple tensors $s\otimes n$ that this makes $S\otimes_R N$ a
+  $S$-module.
+ 
+%  To review we considered the product of two $R$-modules right and left 
+%  respectively i.e. $S$ is a left $S$-module as well as a right module-$R$.
+%  We extended the
+
+  The following theorem shows this is the most general $S$-module to embedded
+  the $R$-module $N$ into. First we need a lemma the Universal property of 
+  free modules.
+  \begin{lemma}
+    Given any set $X$, any left $R$-module $M$, and any map $\psi:X\to M$.
+    There exists a unique $R$-module homomorphism from the free 
+    $R$-module generated by $X$ to $M$    
+    \[\Psi:F(X)\to M \qquad\text{s.t.}\quad \psi(x)=\Psi(x) \forall x\in X \]
+  \end{lemma}
+  The proof follows since $X$ is a generating set of $F(X)$ and each element
+  of $F(X)$ has a unique representation of the formal 
+  form $r_1x_1+\cdots+r_kx_k$ see example 1.1
+
+  The map is \[\Psi:\sum_{i\in[k]}r_ix_i\mapsto \sum_{i\in[k]}r_i\psi(x_i)\]
+  \begin{thm}
+    Let $R \subset S$  be a subring, $N$ be a $R$-module, and 
+    $\iota:N\to S\otimes_R N$ be the $R$-module homomorphism 
+    $n \mapsto 1\otimes n$.\\[1em]
+    For any left $S$-module $L$ and $R$-module homomorphism
+    $\phi:N\to L$ there exists a unique $S$-module homomorphism
+    $\Phi:S\otimes_R N\to L$ such that $\phi=\Phi\circ\iota$
+\begin{center}\begin{tikzcd}
+N \arrow{r}{\iota}\arrow{rd}{}[swap]{\phi}
+&S\otimes_RN \arrow[dotted]{d}{\Phi}[swap]{!}\\
+&L
+\end{tikzcd}\end{center}
+  \end{thm}
+  \begin{proof}
+    Since $L$ is a left $S$-module let us define the map 
+    \[\psi:S\times N\to L:(s,n)\mapsto s.\phi(n)\]  
+    By the universal property of free modules, see Lemma 1.1, there exist 
+    unqiue $\mathbb{Z}$-module homomorphism from the free Abelian group to the
+    left $S$-module $L$ 
+    \[  \Psi:F(S\times N)\to L \]
+    Specifically
+    \begin{align*}
+      \Psi\left( \sum_{i\in[k]}a_i(s_i,n_i) \right)
+      &= \sum_{i\in[k]}a_i\psi((s_i,n_i)) \\
+      &= \sum_{i\in[k]}\sum_{j=1}^{a_i}\psi((s_i,n_i))\\
+      &= \sum_{i\in[k]}\sum_{j=1}^{a_i}s_i.\phi(n_i)
+    \end{align*}
+    Since $\phi$ is an $R$-module homomorphism i.e.
+    \[\phi(x+y)=\phi(x)+\phi(y)\qquad\text{and}\qquad\phi(r.x)=r.\phi(x)\]
+    Then the generators for the subgroup from the equivalence relation $\sim$ discussed
+    previously map to zero in $L$.
+    e.g. $(s_1+s_2,n)\sim(s_1,n)+(s_2,n)$ gives a generatoring element
+    $(s_1+s_2,n)-(s_1,n)-(s_2,n)$ which maps to
+    \begin{align*}
+      \Psi((s_1+s_2,n)-(s_1,n)-(s_2,n))
+      &=\psi((s_1+s_2,n))-\psi((s_1,n))-\psi((s_2,n))\\
+      &=(s_1+s_2).\phi(n)-s_1.\phi(n)-s_2.\phi(n)\\
+      &=s_1.\phi(n)+s_2.\phi(n)-s_1.\phi(n)-s_2.\phi(n)\\
+      &=0
+    \end{align*}
+    Similarly for $(s\cdot r,n)\sim(s,r\cdot n)$ and $(s,n_1+n_2)\sim(s,n_1)+(s,n_2)$
+    Therefore there exists a well defined $\mathbb{Z}$-module homomorphism
+    \[ \Phi:F(S\times N)/\sim=S\otimes_RN\to L \]
+    where $\Phi(\sum s_i\otimes n_i)=\sum s_i.\phi(n_i)\in L$. Since $L$ is a left
+    $S$-module
+    \begin{align*}
+      s.\Phi\left(\sum s_i\otimes n_i\right) &= s.\left(\sum s_i.\phi(n_i)\right) \\
+      &= \sum s.(s_i.\phi(n_i)) \\
+      &= \sum (s\cdot s_i).\phi(n_i) \\
+      &= \Phi\left(\sum(s\cdot s_i)\otimes n_i\right)\\
+      &= \Phi\left(\sum s.(s_i\otimes n_i)\right)
+    \end{align*}
+    From the above calculation we see $\Phi$ is a $S$-module homomorphism.
+    Note any $S$-module homomorphism is uniquely determined by the values on
+    elements of the generating set, e.g. $1\otimes n$ and since 
+    $\Phi(1\otimes n)=\phi(n)$ then $\Phi$ is uniquely determined by $\phi$.
+  \end{proof}
+  \begin{remark}
+    The converse of this theorem is true. If $\Phi:S\otimes_RN\to L$ is a 
+    $S$-module homomorphism then $\phi=\Phi\circ\iota:N\to L$ is a
+    $R$-module homomorphism.
+  \end{remark}
+  \begin{cor}
+    $\frac{N}{ker\iota}$ is the unique largest quotient of $N$ that can be 
+    embedded in any $S$-module.
+  \end{cor}
+  \subsection{General Tensor}
+  \begin{defn}
+    Let $M$ be any right module-$R$, $N$ any left $R$-module
+  \end{defn}
+  \begin{thm}
+    Let $R$ be any ring with 1, $M$ right module-$R$, $N$ left
+    $R$-module, and $L$ any Abelian group. \\[1em]
+    If $\phi:M\times N\to L$ is a $R$-balanced map then there exists a 
+    unique group homomorphism $\Phi:M\otimes_RN\to L$ such that $\phi=\Phi\circ\iota$.\\[1em]
+    If $\Phi:M\otimes_RN\to L$ any group homomorphism then 
+    $\phi=\Phi\circ\iota:M\times N\to L$ is a $R$-balanced map.
+  \end{thm}
+  \begin{thm}\textbf{Associativity of the Tensor Product}\\
+    Let $M$ be any right $S$-module-$R$, $N$ any $R$-module-$T$, and $L$
+    any left $T$-module.
+    \\[1em]
+    There exists a unique $S$-module isomorphism
+   \[ (M\otimes_RN)\otimes_TL\cong M\otimes_R(N\otimes_T L) \]
+   $m\otimes(n\otimes l)\mapsto (m\otimes n)\otimes l$
+  \end{thm}
+  \begin{proof}
+    Note that $M\otimes_RN$ is $S$-module-$T$ and $N\otimes_TL$ left $R$-module.
+    For each $l\in L$ define $\phi_l^L:M\times N\to M\otimes_R(N\otimes_TL)$
+    \[\phi_l^L(m,n) = m\otimes (n\otimes l)\]
+    \begin{align*}
+      \phi_l^L(m.r,n) &= m.r\otimes(n\otimes l) \\
+      &= m\otimes r.(n\otimes l) \\
+      &= m\otimes (r.n\otimes l) \\
+      &= \phi_l^L(m,r.n)
+    \end{align*}
+    The above calculation shows $\phi_l^L$ is $R$-balanced. By the universal 
+    property of tensor product there exist a unique homomorphism
+    \[ \Phi_l^L:M\otimes_RN\to M\otimes_R(N\otimes_TL) \]
+    and therefore the following map is well defined
+    \begin{align*}
+      \Phi^L&:(M\otimes_RN)\times L\to M\otimes_R(N\otimes_T L)\\
+      &:(m\otimes n,l)\mapsto \Phi_l^L(m\otimes n)
+    \end{align*}
+    A simple calculatin shows that $\Phi^L$ is $R$-balanced and therefore by
+    the universal property of tensor product there exist a unique homomorphism
+    $\Phi:(M\otimes_R N)\otimes_TL\to M\otimes_R(N\otimes_TL)$. Repeat with
+    $\psi_m^M$ maps to get the inverse homomorphism.
+
+    To complete the proof note that $S$ action is compatible with the $T$ action
+    \[s.((m\otimes n).t)=s.(m\otimes n.t)=s.m\otimes n.t = (s.m\otimes n).t=(s.(m\otimes n)).t \]
+    so $M\otimes_RN$ is a $S$-module-$T$ making $(M\otimes_RN)\otimes_TL$ a $S$-module.
+    By the isomorphism constructed above $\Phi(s.(m\otimes n)\otimes l)=\Phi((s.m\otimes n)\otimes l)=s.m\otimes(n\otimes l)=s.(m\otimes(n\otimes l))$
+  \end{proof}
+  \begin{thm}\textbf{Tensor product commutes with Direct Sum}\\
+    Let $M$,$M'$ be any right modules-$R$ and $N,N'$ be any
+    left $R$-modules.\\[1em]
+    There exists a unique group isomorphisms
+    \[(M\oplus M')\otimes_R N\cong(M\otimes_RN)\oplus(M'\otimes N)\]
+    \[ M\otimes_R(N\oplus N')\cong(M\otimes_RN)\oplus(M\otimes_RN') \]
+    such that $(m,m')\otimes n \mapsto (m\otimes n,m'\otimes n)$ and
+    $m\otimes(n,n')\mapsto(m\otimes n,m\otimes n')$ respectively.
+    \\[1em]
+    And if $M,M'$ $S$-module-$R$ then there exists a $S$-module isomorphism.
+  \end{thm}
+\end{document}
