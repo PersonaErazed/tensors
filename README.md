@@ -11,4 +11,4 @@ see MIT open courseware Quantum Mechanics 2 [lecture notes on multiparticle syst
 John Lee, Introduction to Smooth Manifolds
 is a great example how tensors are used in Differential Geometry and Manifold theory.
 
-Here is a helpful article on calculation with tensor of finite dim vector spaces. [notes][http://hitoshi.berkeley.edu/221a/tensorproduct.pdf]
+Here is a helpful article on calculation with tensor of finite dim vector spaces. [notes](http://hitoshi.berkeley.edu/221a/tensorproduct.pdf)
