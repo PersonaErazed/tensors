@@ -409,4 +409,39 @@ M_1\times\cdots\times M_n \arrow{r}{\iota}\arrow{rd}{}[swap]{\phi}
     \\[1em]
     And if $M,M'$ $S$-module-$R$ then there exists a $S$-module isomorphism.
   \end{thm}
+  \begin{proof}
+    Define the map 
+    \begin{align*}
+      \phi&:(M\oplus M')\times N\to(M\otimes N)\oplus(M'\otimes N)\\
+            &:((m,m'),n)\mapsto (m\otimes n,m'\otimes n)
+    \end{align*}
+    Check if it is well defined and $R$-balanced.
+    Then use the universal property of tensor products to get a homomorphism
+    \begin{align*}
+      \Phi&:(M\oplus M')\otimes N\to(M\otimes N)\oplus(M'\otimes N)\\
+            &:(m,m')\otimes n\mapsto (m\otimes n,m'\otimes n)
+    \end{align*}
+    Now define two maps
+    \begin{align*}
+      \psi&:M\times N\to(M\oplus M')\otimes N
+      &\psi'&:M'\times N\to(M\oplus M')\otimes N\\
+          &:(m,n)\mapsto (m,0)\otimes n
+          &&:(m',n)\mapsto (0,m')\otimes n
+    \end{align*}
+    Again check if they are $R$-balanced and use the universal property 
+    to get the unique homomorphisms
+    \begin{align*}
+      \Psi&:M\otimes N\to(M\oplus M')\otimes N
+      &\Psi'&:M'\otimes N\to(M\oplus M')\otimes N\\
+          &:m\otimes n\mapsto (m,0)\otimes n
+          &&:m\otimes n\mapsto (0,m')\otimes n
+    \end{align*}
+    Next define the map 
+    \begin{align*}
+      \Psi\oplus\Psi'&:(M\otimes N)\oplus(M'\otimes N)\to(M\oplus M')\otimes N \\
+      &:(m\otimes n,m'\otimes n)\mapsto \Psi(m\otimes n)+\Psi(m'\otimes n)
+    \end{align*}
+    Compute to show $\Phi\circ(\Psi\oplus\Psi')=id_{(M\oplus M')\otimes N}$
+    and $(\Psi\oplus\Psi')\circ\Phi=id_{(M\otimes N)\oplus(M'\otimes N)}$
+  \end{proof}
 \end{document}
