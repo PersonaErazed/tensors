@@ -277,7 +277,11 @@ N \arrow{r}{\iota}\arrow{rd}{}[swap]{\phi}
   of a space in which the product of elements from two spaces can have
   a group structure and given sufficient conditions have a module structure.
 
-  
+  Observing the relations used in the extenision of scalars when note the 
+  requirements of the constituent spaces of the construct needs an abelian
+  group structure. By the relation $(x.r,y)\sim(x,r.y)$ the constituent
+  spaces need a right and left ring action respectivaly. This leads us
+  to the construction of the abelian group known as the tensor product.
   \begin{defn}\textbf{Tensor Product}\\
     Let $M$ be any right module-$R$ and $N$ any left $R$-module. Consider the
     equivalance relation $\sim$ on $F(M\times N)$ free Abelian group generated from
@@ -289,6 +293,21 @@ N \arrow{r}{\iota}\arrow{rd}{}[swap]{\phi}
   \end{align*}
   The abelian group $M\otimes_RN=F(M\times N)/\sim$ is called the \textbf{tensor product of $M$ and $N$ over $R$}
   \end{defn}
+  \begin{remark}
+    In the above definition of tensor product if the right module-$R$ was a
+    bimodule or has a left ring action by another ring $S$ then the tensor
+    product has a natural module structure. Defining it on a simple tensor
+    as $s.(m\otimes n):= (s.m)\otimes n$
+
+    If $R$ is a commutative ring we define $m.r:=r.m$ for a right module-$R$
+    $M$ which can be shown that $M$ is a $R$-bimodule.
+    Note we can see $R$ must be commutative since
+    \[(r\cdot r').m=m.(r\cdot r')=(m.r).r'=r'.(r.m)=(r'\cdot r).m\]
+  \end{remark}
+  In the special case in extension of scalars we considered $R$-module 
+  homomorphisms to any $S$-module where $S$ contained $R$. In the general
+  case we consider a more general type of map, one which still sends the
+  generators of kernel of $\pi:F(M\times N)\to M\otimes_RN$ e.g. $(m_1+m_2,n)-(m_1,n)-(m_2,n)$.
   \begin{defn}\textbf{R-balanced map}\\
     Let $M$ be any right module-$R$, $N$ any left $R$-module, and $L$ any 
     Abelian group.\\[1em]
@@ -307,6 +326,8 @@ N \arrow{r}{\iota}\arrow{rd}{}[swap]{\phi}
     If $\Phi:M\otimes_RN\to L$ any group homomorphism then 
     $\phi=\Phi\circ\iota:M\times N\to L$ is a $R$-balanced map.
   \end{thm}
+  Since the product of sets is associative it seems likely that the tensor
+  product is also associative. The next theorem shows this is the case.
   \begin{thm}\textbf{Associativity of the Tensor Product}\\
     Let $M$ be any right $S$-module-$R$, $N$ any $R$-module-$T$, and $L$
     any left $T$-module.
@@ -343,6 +364,40 @@ N \arrow{r}{\iota}\arrow{rd}{}[swap]{\phi}
     so $M\otimes_RN$ is a $S$-module-$T$ making $(M\otimes_RN)\otimes_TL$ a $S$-module.
     By the isomorphism constructed above $\Phi(s.(m\otimes n)\otimes l)=\Phi((s.m\otimes n)\otimes l)=s.m\otimes(n\otimes l)=s.(m\otimes(n\otimes l))$
   \end{proof}
+  Most spaces of interest for which we construct a tensor product have
+  a have action by a commutative ring and therefore are bimodules. Such
+  as vector spaces. In this case the $R$-balanced maps are multilinear maps.
+  \begin{defn}\textbf{Multilinear Map}\\
+    Consider $R$ commutative ring and $M_1,\ldots,M_n$ and $L$ be 
+    $R$-modules. Then a map $\phi:M_1\times\cdots\times M_n\to L$
+    is a multilinear map if and only if for each component $i\in[n]$
+    the map where the other entries are fixed is a $R$-module homomorphism.
+    \[\phi(m_1,\ldots,m_{i-1},r.m_i+r'.m_i',m_{i+1}\ldots,m_n)=\]
+    \[r.\phi(m_1,\ldots,m_{i-1},m_i,m_{i+1}\ldots,m_n)+
+    r'.\phi(m_1,\ldots,m_{i-1},m_i',m_{i+1}\ldots,m_n)\]
+  \end{defn}
+  \begin{cor}
+    Let $R$ be a commutative ring and $M_1,\cdots,M_n$ be $R$-modules.
+    Let $M_1\otimes\cdots\otimes M_n$ be any bracketing of the tensor 
+    product of the aforementioned modules. Let
+    \begin{align*}
+      \iota&:M_1\times\cdots\times M_n\to M_1\otimes\cdots\otimes M_n \\
+           &:(m_1,\ldots,m_n)\mapsto m_1\otimes\cdots\otimes m_n
+    \end{align*}
+    For any $R$-module $L$ there is a bijection
+    between multilinear maps and $R$-module homomorphism
+    \begin{align*}
+      \left\{\underset{\text{ mulitlinear}}{\phi:M_1\times\cdots\times M_n\to L}\right\}
+      \left\{\underset{\text{ $R$-module homomorphism}}{\Phi:M_1\otimes\cdots\otimes M_n\to L}\right\}
+    \end{align*}
+    such that the following diagram commutes
+    
+\begin{center}\begin{tikzcd}
+M_1\times\cdots\times M_n \arrow{r}{\iota}\arrow{rd}{}[swap]{\phi}
+&M_1\otimes\cdots\otimes M_n \arrow[dotted]{d}{\Phi}[swap]{!}\\
+&L
+\end{tikzcd}\end{center}
+  \end{cor}
   \begin{thm}\textbf{Tensor product commutes with Direct Sum}\\
     Let $M$,$M'$ be any right modules-$R$ and $N,N'$ be any
     left $R$-modules.\\[1em]
